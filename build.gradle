@@ -1,0 +1,32 @@
+plugins {
+    // gradle java 플러그인을 적용한다
+    id 'java'
+    id 'war'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+// 소스와 컴파일 버전을 11로 맞춰준다.
+sourceCompatibility='11'
+targetCompatibility='11'
+// 소스 코드 인코딩으로 UTP-8을 사용한다.
+compileJava.options.encoding="UTF-8"
+
+// 의존 모듈을 메이븐 중앙 레포지토리에서 다운로드한다.
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // spring-context모듈에대한 의존을 설정한다.
+    implementation group: 'org.springframework', name: 'spring-context', version: '5.2.3.RELEASE'
+    implementation group: 'org.springframework', name: 'spring-test', version: '5.2.3.RELEASE'
+    implementation group: 'org.springframework', name: 'spring-tx', version: '5.2.3.RELEASE'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
