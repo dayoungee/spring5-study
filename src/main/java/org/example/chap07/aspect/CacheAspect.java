@@ -12,7 +12,7 @@ import java.util.Map;
 public class CacheAspect {
     private Map<Long, Object> cache = new HashMap<>();
 
-    @Pointcut("execution(public * chap07..*(long))")
+    @Pointcut("execution(public * org.example.chap07.*.*(..) )")
     public void cacheTarget() {
     }
 
