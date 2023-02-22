@@ -5,7 +5,11 @@ import org.example.chap07.RecCalculator;
 import org.example.chap07.aspect.CacheAspect;
 import org.example.chap07.aspect.ExeTimeAspect;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
+@Configuration
+@EnableAspectJAutoProxy
 public class AppCtxWithCache {
     @Bean
     public CacheAspect cacheAspect(){
