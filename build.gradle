@@ -23,6 +23,9 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-test', version: '5.2.3.RELEASE'
     implementation group: 'org.springframework', name: 'spring-tx', version: '5.2.3.RELEASE'
     implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.13'
+    implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.0.2.RELEASE' // jdbc 연동에 필요한 기능 제공
+    implementation group: 'org.apache.tomcat', name: 'tomcat-jdbc', version: '9.0.70' //db 커넥션풀 기능 제공
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.26'  // jdbc 드라이버 제공
     implementation 'org.projectlombok:lombok:1.18.22'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
