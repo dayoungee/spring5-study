@@ -2,11 +2,16 @@ package org.example.chap08.config;
 
 
 import org.apache.tomcat.jdbc.pool.DataSource;
-import org.example.chap08.spring.MemberDao;
+import org.example.chap08.spring.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
+@EnableTransactionManagement
+//@Transactional 애노테이션이 붙은 메서드를 트랜잭션 범위에서 실행하는 기능 활성화 PlatformTransactionManager 빈을 사용해서 트랜잭션을 적용
 public class AppCtx {
     @Bean(destroyMethod = "close") // 커넥션 풀에 보관된 connection을 닫는다.
     public DataSource dataSource() {
@@ -17,11 +22,52 @@ public class AppCtx {
         ds.setPassword("spring5");
         ds.setInitialSize(2);
         ds.setMaxActive(10);
+        ds.setTestWhileIdle(true);
+        ds.setMinEvictableIdleTimeMillis(60000 * 3);
+        ds.setTimeBetweenEvictionRunsMillis(10 * 1000);
         return ds;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager() { // PlatformTransactionManager: 스프링이 제공하는 트랜잭션 매니저 인터페이스
+        DataSourceTransactionManager tm = new DataSourceTransactionManager();
+        tm.setDataSource(dataSource());
+        return tm;
     }
 
     @Bean
     public MemberDao memberDao() {
         return new MemberDao(dataSource());
+    }
+
+    @Bean
+    public MemberRegisterService memberRegSvc() {
+        return new MemberRegisterService(memberDao());
+    }
+
+    @Bean
+    public ChangePasswordService changePwdSvc() {
+        ChangePasswordService pwdSvc = new ChangePasswordService();
+        pwdSvc.setMemberDao(memberDao());
+        return pwdSvc;
+    }
+
+    @Bean
+    public MemberPrinter memberPrinter()
+    {
+        return new MemberPrinter();
+    }
+
+    @Bean
+    public MemberListPrinter listPrinter() {
+        return new MemberListPrinter(memberDao(), memberPrinter());
+    }
+
+    @Bean
+    public MemberInfoPrinter infoPrinter() {
+        MemberInfoPrinter infoPrinter = new MemberInfoPrinter();
+        infoPrinter.setMemberDao(memberDao());
+        infoPrinter.setPrinter(memberPrinter());
+        return infoPrinter;
     }
 }
