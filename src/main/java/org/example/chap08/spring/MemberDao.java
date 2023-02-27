@@ -39,12 +39,12 @@ public class MemberDao {
     }
 
     public void insert(Member member) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        jdbcTemplate.update((Connection con)-> {
-                PreparedStatement pstmt = con.prepareStatement(
+        KeyHolder keyHolder = new GeneratedKeyHolder(); // GeneratedKeyHolder 객체를 생성한다. 이 클래스는 자동 생성된 키값을 구해주는 KeyHolder 구현 클래스이다.
+                jdbcTemplate.update((Connection con)-> { // updateO 메서드는 PreparedStatementCreator 객체와 KeyHolder 객체를 파라미터로갖는다.
+                            PreparedStatement pstmt = con.prepareStatement(
                         "insert into MEMBER (EMAIL, PASSWORD, NAME, REGDATE) " +
                                 "values (?, ?, ?, ?)",
-                        new String[]{"ID"});
+                        new String[]{"ID"}); // 두번째 파라미터는 자동 생성되는 키 칼럼 목록을 지정할 때 사용한다.
                 pstmt.setString(1, member.getEmail());
                 pstmt.setString(2, member.getPassword());
                 pstmt.setString(3, member.getName());

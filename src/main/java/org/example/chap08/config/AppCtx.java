@@ -20,11 +20,12 @@ public class AppCtx {
         ds.setUrl("jdbc:mysql://localhost/spring5fs?characterEncoding=utf8"); // jdbc url을 지정한다. 캐릭터셋을 UTF-8로 설정했으므로 지정행하낟.
         ds.setUsername("spring5");//db연결할때 사용할 사용자 계정과 암호 지정
         ds.setPassword("spring5");
-        ds.setInitialSize(2);
-        ds.setMaxActive(10);
-        ds.setTestWhileIdle(true);
-        ds.setMinEvictableIdleTimeMillis(60000 * 3);
-        ds.setTimeBetweenEvictionRunsMillis(10 * 1000);
+        ds.setInitialSize(2);   // 최초에 생성할 커넥션 개수
+        ds.setMaxActive(10); // 커넥션 풀에서 가져올 수 있는 커넥션 max개수
+                            // maxWait() -> 모든 커넥션이 활성상태일때 다른 커넥션이 반환될 때까지 대기하는 시간, 대기 시간 내에 반환된 커넥션이 없으면 익센셥
+        ds.setTestWhileIdle(true); // 유휴 커넥션 검사
+        ds.setMinEvictableIdleTimeMillis(60000 * 3); // 최소 유휴 시간 3분
+        ds.setTimeBetweenEvictionRunsMillis(10 * 1000); // 10초주기로 검사
         return ds;
     }
 
